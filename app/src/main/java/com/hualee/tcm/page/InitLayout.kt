@@ -1,5 +1,6 @@
 package com.hualee.tcm.page
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -24,6 +25,7 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.hualee.tcm.App
 import com.hualee.tcm.R
 import com.hualee.tcm.db.DBUtils
 import com.hualee.tcm.global.AppSettings
@@ -44,6 +46,7 @@ class DataInitViewModel : ViewModel() {
                 AppSettings.appContext.assets.open("version.json").bufferedReader().readText()
             val jsonVer = HerbJsonParser.parseVersion(verJson)
             val dbVer = DBUtils.queryVer().firstOrNull()
+            Log.d(App.TAG, "jsonVer=$jsonVer dbVer=${dbVer?.version}")
             if (jsonVer > 0 && jsonVer != dbVer?.version) {
                 // 更新 DB 数据
                 val herbJson =
@@ -52,7 +55,7 @@ class DataInitViewModel : ViewModel() {
                 jsonList.forEach { jsonEntity ->
                     val dbList = DBUtils.queryHerbByName(jsonEntity.name)
                     if (dbList.isEmpty()) {
-                        DBUtils.updateHerb(jsonEntity)
+                        DBUtils.insertHerb(jsonEntity)
                     } else {
                         dbList.forEach { dbEntity ->
                             val newData = dbEntity.copy(

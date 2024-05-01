@@ -10,6 +10,6 @@ class App : Application() {
     }
 
     companion object {
-        const val TAG = "TCM"
+        const val TAG = "LiJie"
     }
 }

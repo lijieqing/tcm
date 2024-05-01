@@ -10,8 +10,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.hualee.tcm.page.BottomNaviTabLayout
 import com.hualee.tcm.page.DataInitLayout
-import com.hualee.tcm.page.HomeLayout
 import com.hualee.tcm.ui.theme.TcmTheme
 
 
@@ -36,7 +36,7 @@ class MainActivity : ComponentActivity() {
                             )
                         }
                         composable("home") {
-                            HomeLayout()
+                            BottomNaviTabLayout()
                         }
                     }
                 }

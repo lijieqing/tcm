@@ -1,5 +1,6 @@
 package com.hualee.tcm.db
 
+import androidx.paging.PagingSource
 import androidx.room.Dao
 import androidx.room.Delete
 import androidx.room.Insert
@@ -21,8 +22,17 @@ interface HerbDao {
     @Query("SELECT * FROM herbs WHERE name = :herbName")
     suspend fun queryHerbByName(herbName: String): List<HerbEntity>
 
-    @Query("SELECT * FROM herbs WHERE name LIKE :herbName")
+    @Query("SELECT * FROM herbs WHERE name LIKE '%' || :herbName || '%'")
     suspend fun queryHerbByNameLike(herbName: String): List<HerbEntity>
+
+    @Query("SELECT * FROM herbs WHERE name LIKE '%' || :herbName || '%'")
+    fun queryHerbByNameLikeWithPaging(herbName: String): PagingSource<Int, HerbEntity>
+
+    @Query("SELECT * FROM herbs WHERE effect LIKE '%' || :herbEffect || '%'")
+    fun queryHerbByEffectLikeWithPaging(herbEffect: String): PagingSource<Int, HerbEntity>
+
+    @Query("SELECT * FROM herbs")
+    fun queryAllHerbWithPaging(): PagingSource<Int, HerbEntity>
 }
 
 @Dao

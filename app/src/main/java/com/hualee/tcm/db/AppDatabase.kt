@@ -34,6 +34,14 @@ object DBUtils {
 
     suspend fun queryHerbByName(name: String) = db.herbsDao().queryHerbByName(name)
 
+    suspend fun queryHerbByNameLike(name: String) = db.herbsDao().queryHerbByNameLike(name)
+
+    fun queryHerbByNameLikeWithPaging(name: String) = db.herbsDao().queryHerbByNameLikeWithPaging(name)
+
+    fun queryHerbByEffectLikeWithPaging(name: String) = db.herbsDao().queryHerbByEffectLikeWithPaging(name)
+
+    fun queryAllHerbWithPaging() = db.herbsDao().queryAllHerbWithPaging()
+
     suspend fun insertVer(ver: Long) = db.verDao().insertVersion(VersionEntity(version = ver))
 
     suspend fun updateVer(ver: VersionEntity) = db.verDao().updateVersion(ver)

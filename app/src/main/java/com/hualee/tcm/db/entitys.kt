@@ -47,7 +47,11 @@ data class HerbEntity(
      * 配伍: [ {"herb_name": "", "effect": ""} ]
      */
     @ColumnInfo(name = "combination") val combination: String,
-)
+) {
+    fun indicationList(): List<String> {
+        return indications.split("#")
+    }
+}
 
 
 @Entity(tableName = "version")

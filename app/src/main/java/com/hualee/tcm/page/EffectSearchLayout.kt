@@ -1,6 +1,7 @@
 package com.hualee.tcm.page
 
 import android.util.Log
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -23,6 +24,7 @@ import androidx.paging.compose.collectAsLazyPagingItems
 import com.hualee.tcm.App
 import com.hualee.tcm.db.DBUtils
 import com.hualee.tcm.db.HerbEntity
+import com.hualee.tcm.ui.theme.YueYingWhite
 
 
 class EffectSearchViewModel : ViewModel() {
@@ -55,9 +57,14 @@ fun EffectSearchLayout() {
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
     Column(
-        modifier = Modifier.fillMaxSize(),
+        modifier = Modifier.fillMaxSize()
+            .background(color = YueYingWhite),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
+        HerbsList(
+            modifier = Modifier.weight(1F),
+            lazyPagingItems = lazyPagingItems,
+        )
         OutlinedTextField(
             value = viewModel.herbEffect,
             onValueChange = {
@@ -67,9 +74,6 @@ fun EffectSearchLayout() {
             label = {
                 Text(text = "输入药材功效进行检索")
             },
-        )
-        HerbsList(
-            lazyPagingItems = lazyPagingItems,
         )
     }
 

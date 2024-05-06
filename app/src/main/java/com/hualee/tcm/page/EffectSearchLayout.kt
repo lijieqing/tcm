@@ -4,7 +4,6 @@ import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -40,14 +39,13 @@ class EffectSearchViewModel : ViewModel() {
     }
 }
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Preview(showBackground = true)
 @Composable
 fun EffectSearchLayout() {
     val viewModel = viewModel<EffectSearchViewModel>()
     val pager = remember {
         Pager(
-            config = PagingConfig(pageSize = 18),
+            config = PagingConfig(pageSize = 4),
             pagingSourceFactory = {
                 Log.d(App.TAG, "paging loading herbs")
                 viewModel.getPagingData()
@@ -57,7 +55,8 @@ fun EffectSearchLayout() {
     val lazyPagingItems = pager.flow.collectAsLazyPagingItems()
 
     Column(
-        modifier = Modifier.fillMaxSize()
+        modifier = Modifier
+            .fillMaxSize()
             .background(color = YueYingWhite),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {

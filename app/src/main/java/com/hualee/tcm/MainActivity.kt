@@ -36,7 +36,10 @@ class MainActivity : ComponentActivity() {
                     ) {
                         composable("data_init") {
                             DataInitLayout(
-                                onInitFinished = { controller.navigate("home") },
+                                onInitFinished = {
+                                    controller.popBackStack()
+                                    controller.navigate("home")
+                                },
                             )
                         }
                         composable("home") {
@@ -47,6 +50,4 @@ class MainActivity : ComponentActivity() {
             }
         }
     }
-
-    override fun onBackPressed() {}
 }

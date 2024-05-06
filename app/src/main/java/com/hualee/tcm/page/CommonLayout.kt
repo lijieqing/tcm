@@ -2,17 +2,13 @@ package com.hualee.tcm.page
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.layout.wrapContentWidth
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -29,7 +25,32 @@ import androidx.paging.compose.LazyPagingItems
 import com.hualee.tcm.db.HerbEntity
 import com.hualee.tcm.ui.theme.Round16
 import com.hualee.tcm.ui.theme.XuanQing
-import com.hualee.tcm.ui.theme.XueQing
+
+@Composable
+fun HerbNameList(
+    modifier: Modifier = Modifier,
+    lazyPagingItems: LazyPagingItems<HerbEntity>,
+) {
+    LazyColumn(
+        modifier = modifier.padding(top = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp),
+    ) {
+        items(count = lazyPagingItems.itemCount) { index ->
+            val item = lazyPagingItems[index]
+            item?.let {
+                Text(
+                    modifier = Modifier
+                        .padding(horizontal = 10.dp)
+                        .fillMaxWidth()
+                        .wrapContentHeight()
+                        .padding(vertical = 10.dp, horizontal = 15.dp),
+                    text = it.name,
+                )
+            }
+        }
+    }
+}
+
 
 @Composable
 fun HerbsList(

@@ -1,5 +1,5 @@
 <resources>
     <string name="app_name">tcm</string>
-    <string name="name_search">药名检索</string>
-    <string name="effect_search">功效检索</string>
+    <string name="home">首页</string>
+    <string name="settings">设置</string>
 </resources>

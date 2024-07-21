@@ -44,6 +44,7 @@ class SearchViewModel : ViewModel() {
 
     val searchModeList = mutableStateListOf(
         "药材名称",
+        "性能特点",
         "药材功效",
     )
 
@@ -77,10 +78,15 @@ class SearchViewModel : ViewModel() {
         return DBUtils.queryHerbByEffectLikeWithPaging(searchValue)
     }
 
+    private fun getHerbFeaturePagingData(): PagingSource<Int, HerbEntity> {
+        return DBUtils.queryHerbByFeatureLikeWithPaging(searchValue)
+    }
+
 
     fun getPagingData(): PagingSource<Int, HerbEntity> {
         return when (searchMode) {
             0 -> getHerbNamePagingData()
+            1 -> getHerbFeaturePagingData()
             else -> getHerbEffectPagingData()
         }
     }
@@ -110,7 +116,10 @@ fun HomeLayout() {
     ) {
 
         FlowRow(
-            modifier = Modifier.align(Alignment.CenterHorizontally),
+            modifier = Modifier
+                .padding(top = 18.dp)
+                .align(Alignment.CenterHorizontally)
+                .padding(horizontal = 30.dp),
         ) {
             Text(
                 text = "检索类别：",

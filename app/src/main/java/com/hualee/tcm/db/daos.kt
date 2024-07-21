@@ -31,6 +31,9 @@ interface HerbDao {
     @Query("SELECT * FROM herbs WHERE effect LIKE '%' || :herbEffect || '%'")
     fun queryHerbByEffectLikeWithPaging(herbEffect: String): PagingSource<Int, HerbEntity>
 
+    @Query("SELECT * FROM herbs WHERE feature LIKE '%' || :herbFeature || '%'")
+    fun queryHerbByFeatureLikeWithPaging(herbFeature: String): PagingSource<Int, HerbEntity>
+
     @Query("SELECT * FROM herbs")
     fun queryAllHerbWithPaging(): PagingSource<Int, HerbEntity>
 }

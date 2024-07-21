@@ -38,7 +38,9 @@ object DBUtils {
 
     fun queryHerbByNameLikeWithPaging(name: String) = db.herbsDao().queryHerbByNameLikeWithPaging(name)
 
-    fun queryHerbByEffectLikeWithPaging(name: String) = db.herbsDao().queryHerbByEffectLikeWithPaging(name)
+    fun queryHerbByEffectLikeWithPaging(effect: String) = db.herbsDao().queryHerbByEffectLikeWithPaging(effect)
+
+    fun queryHerbByFeatureLikeWithPaging(feature: String) = db.herbsDao().queryHerbByFeatureLikeWithPaging(feature)
 
     fun queryAllHerbWithPaging() = db.herbsDao().queryAllHerbWithPaging()
 

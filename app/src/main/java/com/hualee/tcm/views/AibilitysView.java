@@ -3,8 +3,10 @@ package com.hualee.tcm.views;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.DashPathEffect;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.PathEffect;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.util.AttributeSet;
@@ -107,7 +109,7 @@ public class AibilitysView extends View {
     private void initSize() {
         if (allAbility == null) {
             allAbility = new AbilityRenderInfo[]{
-                    new AbilityRenderInfo("测试标题", "87"),
+                    new AbilityRenderInfo("测试标题0", "87"),
                     new AbilityRenderInfo("测试标题1", "19"),
                     new AbilityRenderInfo("测试标题2", "80"),
                     new AbilityRenderInfo("测试标题3", "90"),
@@ -165,10 +167,10 @@ public class AibilitysView extends View {
         canvas.translate(viewWidth / 2, viewHight / 2);
 
         //绘制形状
-        drawPolygon(canvas);
+        // drawPolygon(canvas);
 
         //画出边框线
-        drawOutLine(canvas);
+        drawCircleOutLine(canvas);
 
         //画出能力线
         drawAbilityLine(canvas);
@@ -204,12 +206,12 @@ public class AibilitysView extends View {
             if (i == 0) {
                 titleY = textPoints.get(i).y + (metrics.ascent + metrics.descent);
                 scoreY = textPoints.get(i).y - (metrics.ascent + metrics.descent) * 0.5F;
-            } else if (i == n/2) {
+            } else if (i == n / 2F) {
                 titleY = textPoints.get(i).y - (metrics.ascent + metrics.descent);
                 scoreY = textPoints.get(i).y - (metrics.ascent + metrics.descent) * 2.5F;
             }
             float curAngle = i * angle;
-            if (curAngle == 0F || i == n / 2) {
+            if (curAngle == 0F || i == n / 2F) {
                 x = textPoints.get(i).x;
             } else if (curAngle < Math.PI) {
                 x = textPoints.get(i).x + titleTextWidth / 2;
@@ -309,6 +311,55 @@ public class AibilitysView extends View {
             canvas.drawLine(0, 0, x, y, linePaint); //起点都是中心点
         }
 
+        canvas.restore();
+
+    }
+
+    /**
+     * 绘制多边形的辺，轮廓线
+     *
+     * @param canvas
+     */
+    private void drawCircleOutLine(Canvas canvas) {
+        //遇上一个方法中的用意一样
+        canvas.save();
+
+        linePaint.setStyle(Paint.Style.FILL_AND_STROKE);
+        //先画出最外面的多边形轮库
+        for (int i = 0; i < intervalCount; i++) {
+            float r = R * ((float) (intervalCount - i) / intervalCount);
+            switch (i) {
+                case 0:
+                    linePaint.setColor(Color.parseColor("#D4F0F3"));
+                    break;
+                case 1:
+                    linePaint.setColor(Color.parseColor("#99DCE2"));
+                    break;
+                case 2:
+                    linePaint.setColor(Color.parseColor("#56C1C7"));
+                    break;
+                case 3:
+                    linePaint.setColor(Color.parseColor("#278891"));
+                    break;
+            }
+            canvas.drawCircle(0f, 0f, r, linePaint);
+        }
+
+        linePaint.setStyle(Paint.Style.STROKE);
+        //设置画笔的颜色
+        linePaint.setColor(Color.parseColor("#99DCC2"));
+        // 创建虚线路径效果
+        float[] intervals = {10f, 5f}; // 虚线模式：实线长度 10px，空白长度 5px
+        PathEffect pathEffect = new DashPathEffect(intervals, 0f); // phase 參數控制虛線的起始位置
+        // 设置画笔的路径效果
+        linePaint.setPathEffect(pathEffect);
+        //再画顶点到中心的线
+        for (int i = 0; i < n; i++) {
+            float x = pointArrayList.get(0).get(i).x;
+            float y = pointArrayList.get(0).get(i).y;
+            canvas.drawLine(0, 0, x, y, linePaint); //起点都是中心点
+        }
+        linePaint.setPathEffect(null);
         canvas.restore();
 
     }

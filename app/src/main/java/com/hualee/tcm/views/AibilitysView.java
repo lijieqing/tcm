@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -191,11 +192,36 @@ public class AibilitysView extends View {
         //拿到字体测量器
         Paint.FontMetrics metrics = textPaint.getFontMetrics();
         for (int i = 0; i < n; i++) {
-            float x = textPoints.get(i).x;
+            String titleText = allAbility[i].getTitle();
+            String scoreText = allAbility[i].getScore();
+
+            float titleTextWidth = textPaint.measureText(titleText);
             //ascent:上坡度，是文字的基线到文字的最高处的距离
             //descent:下坡度,，文字的基线到文字的最低处的距离
-            float y = textPoints.get(i).y - (metrics.ascent + metrics.descent) / 2;
-            canvas.drawText(allAbility[i].getTitle() + allAbility[i].getScore(), x, y, textPaint);
+            float x;
+            float titleY = textPoints.get(i).y + (metrics.ascent + metrics.descent) * 0.1F;
+            float scoreY = textPoints.get(i).y - (metrics.ascent + metrics.descent) * 1.5F;
+            if (i == 0) {
+                titleY = textPoints.get(i).y + (metrics.ascent + metrics.descent);
+                scoreY = textPoints.get(i).y - (metrics.ascent + metrics.descent) * 0.5F;
+            } else if (i == n/2) {
+                titleY = textPoints.get(i).y - (metrics.ascent + metrics.descent);
+                scoreY = textPoints.get(i).y - (metrics.ascent + metrics.descent) * 2.5F;
+            }
+            float curAngle = i * angle;
+            if (curAngle == 0F || i == n / 2) {
+                x = textPoints.get(i).x;
+            } else if (curAngle < Math.PI) {
+                x = textPoints.get(i).x + titleTextWidth / 2;
+            } else if (curAngle > Math.PI) {
+                x = textPoints.get(i).x - titleTextWidth / 2;
+            } else {
+                x = textPoints.get(i).x;
+            }
+
+
+            canvas.drawText(titleText, x, titleY, textPaint);
+            canvas.drawText(scoreText, x, scoreY, textPaint);
         }
         canvas.restore();
     }
